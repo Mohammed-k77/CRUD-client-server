@@ -1,0 +1,604 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Links -->
+
+    <link rel="stylesheet" href="./assets/lib/bootstrap.min.css">
+    <link rel="stylesheet" href="./assets/lib/fontawesome-v6.4.2/css/all.css">
+
+    <!-- #region style -->
+
+    <style>
+        .modal-center {
+            top: 30% !important;
+            transform: translateY(-50%) !important;
+        }
+
+        .action-icon {
+            font-size: 18px;
+            font-weight: bold;
+            color: white;
+        }
+
+        table tr th:first-of-type {
+            width: 12%;
+        }
+
+        table tr th:last-of-type {
+            width: 20%;
+        }
+
+        table input[type="checkbox"] {
+            cursor: pointer;
+        }
+
+        .input-searsh {
+            position: relative;
+            display: inline-block;
+            width: 35%;
+        }
+
+        .searsh-icon {
+            position: absolute;
+            right: 2%;
+            font-size: 18px;
+            top: 26%;
+            color: lightgray;
+        }
+
+        .btn-dropdown-custom {
+            width: 100%;
+            border-radius: 0px;
+        }
+
+        .plus-icon {
+            font-size: 15px;
+            margin-right: 10px;
+        }
+
+        .position-custom {
+            position: absolute;
+            right: 1%;
+            top: 2%;
+        }
+    </style>
+    <!-- #endregion -->
+
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- #region HTML-->
+    <div style="position: relative;" class="container">
+
+
+        <!--#region Add Modal -->
+
+        <div class="modal fade" id="add-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Create New</h5>
+                        <button type="button" class="close btn-close-modal" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input class="ms-2 rounded" type="text" placeholder="First Name">
+                        <input class="ms-2 rounded" type="text" placeholder="Last Name">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close-modal"> Close</button>
+                        <button id="btn-add" type="button" class="btn btn-success">Add</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--#endregion Add Modal -->
+
+        <!--#region Details Modal -->
+
+        <div class="modal fade" id="details-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-center" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete !!</h5>
+                        <button type="button" class="close btn-close-modal" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <label class="form-label">First name<input class="ms-2 rounded" readonly type="text"
+                                placeholder="First Name"></label>
+                        <label class="form-label">Last name<input class="ms-2 rounded" readonly type="text"
+                                placeholder="Last Name"></label>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close-modal"> Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--#endregion Details Modal -->
+
+        <!--#region Edit Modal -->
+
+        <div class="modal fade" id="e-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-center" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Edit register</h5>
+                        <button type="button" class="close btn-close-modal" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <input class="ms-2 rounded" type="text">
+                        <input class="ms-2 rounded" type="text">
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close-modal"> Close</button>
+                        <button id="btn-edit" type="button" class="btn btn-primary">Edit</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!--#endregion Edit Modal -->
+
+        <!--#region Delete Modal -->
+        <div class="modal fade" id="d-modal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+            aria-hidden="true">
+            <div class="modal-dialog modal-center" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="exampleModalLabel">Delete !!</h5>
+                        <button type="button" class="close btn-close-modal" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        Are you shure about that you i,ll delete this registered
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary btn-close-modal"> Close</button>
+                        <button id="btn-delete" type="button" class="btn btn-danger">Delete</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!--#endregion Delete Modal -->
+
+        <div class="input-searsh mt-3 mb-3">
+            <input class="form-control" type="text" id="searsh-input" onkeyup="Searsh()"
+                placeholder="Inser name to searsh ....">
+            <i class="fa-solid fa-magnifying-glass searsh-icon"></i>
+        </div>
+        <div class="dropdown position-custom">
+            <button class="btn btn-primary dropdown-toggle" type="button" data-bs-toggle="dropdown"
+                aria-expanded="false">
+                Actions
+            </button>
+            <ul class="dropdown-menu">
+                <li><button onclick="addRegister()" class="btn btn-success btn-dropdown-custom"><i
+                            class="fa fas fa-plus plus-icon"></i>Add New</button></li>
+                <li><button onclick="DeleteSelected()" class="btn btn-danger btn-dropdown-custom">Delete
+                        Selected</button></li>
+                <li class="dropdown-divider"></li>
+                <li><a class="dropdown-item" href="#">Another action</a></li>
+                <li><a class="dropdown-item" href="#">Something else here</a></li>
+            </ul>
+        </div>
+        <table class="table table-responsive table-dark table-bordered table-striped mt-3 mb-3 text-center">
+            <tr>
+                <th>
+                    <label class="form-label"><input onchange="selectAll()" style="margin-right: 5px;"
+                            class="form-check-input" type="checkbox"> Select All</label>
+                </th>
+                <th>
+                    Title
+                </th>
+                <th>
+                    Content
+                </th>
+                <th>
+                    Action
+                </th>
+            </tr>
+        </table>
+    </div>
+    <!-- #endregion -->
+
+    <script src="./assets/lib/jquery-3.7.1.min.js"></script>
+    <script src="./assets/lib/bootstrap.bundle.min.js"></script>
+    <script>
+
+        // Create a new XMLHttpRequest object
+        const xhr = new XMLHttpRequest();
+
+        //#region Load Posts from server
+
+        // Define the API endpoint URL
+        const url = 'http://localhost:3000/posts';
+
+
+        // Define the request method and URL
+        xhr.open('GET', url, true);
+
+        // Set the request headers (if required)
+        xhr.setRequestHeader('Content-Type', 'application/json');
+        xhr.onload = function () {
+            if (xhr.status === 200) {
+                let object = JSON.parse(xhr.responseText)
+
+                object.posts.forEach(function (post) {
+                    $('tbody').eq(0).append(`
+                    <tr>
+                        <td><input class="form-check-input"  type="checkbox"></td>
+                        <td>${post.title}</td>
+                        <td>${post.content}</th>
+                        <td>
+                            <button onclick="editConfirm(this)" class="btn btn-info"><i class="fa-regular fa-pen-to-square action-icon"></i></button>
+                            <button onclick="showDetails(this)" class="btn btn-primary"><i class="fa-solid fa-file-contract action-icon"></i></button>
+                            <button onclick="deleteConfirm(this)" class="btn btn-danger"><i class="fa-solid fa-trash-can action-icon"></i></button>
+                        </td>
+                        <input type="hidden" value="${post.id}">
+                    </tr>
+                    `)
+                });
+            } else {
+                console.error(xhr.responseText);
+            }
+        }
+        xhr.send();
+
+        //#endregion
+
+        //#region Searsh 
+
+        function Searsh() {
+            let input, filter, table, tr, td, i, txtValue;
+            input = document.getElementById("searsh-input");
+            filter = input.value.toUpperCase();
+            table = document.getElementsByTagName('table')[0];
+            tr = table.querySelectorAll('table tr:not(:first-of-type)');
+
+            for (i = 0; i < tr.length; i++) {
+                td = tr[i].getElementsByTagName("td")[1];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    } else {
+                        tr[i].style.display = "none";
+                    }
+                }
+                td = tr[i].getElementsByTagName("td")[2];
+                if (td) {
+                    txtValue = td.textContent || td.innerText;
+                    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+                        tr[i].style.display = "";
+                    }
+                }
+            }
+        }
+
+        //#endregion Searsh 
+
+        //#region Add
+
+        function addRegister() {
+            const btnAdd = document.getElementById('btn-add');
+            const Closebuttons = document.querySelectorAll('.btn-close-modal');
+            Closebuttons.forEach(function (btnClose) {
+                btnClose.addEventListener('click', function () {
+                    $('#add-modal').modal('hide');
+                });
+            });
+
+            $('#add-modal').modal('show');
+
+            btnAdd.addEventListener('click', function () {
+
+                // Define the API endpoint URL
+                const url = 'http://localhost:3000/posts';
+
+                // Define the request method and URL
+                xhr.open('POST', url, true);
+
+                // Set the request headers (if required)
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+                // Define the request payload
+                const payload = {
+                    title: document.getElementById('add-modal').querySelectorAll('input')[0].value,
+                    content: document.getElementById('add-modal').querySelectorAll('input')[1].value,
+                    // userId: 1
+                };
+
+                // Convert the payload to JSON string
+                const payloadJson = JSON.stringify(payload);
+
+                // Handle the response from the server
+                xhr.onload = function () {
+                    if (xhr.status === 201) {
+                        let newPost = JSON.parse(xhr.responseText);
+                        $('tbody').eq(0).append(`
+                        <tr>
+                            <td><input class="form-check-input"  type="checkbox"></td>
+                            <td>${newPost.title}</td>
+                            <td>${newPost.content}</th>
+                            <td>
+                                <button onclick="editConfirm(this)" class="btn btn-info"><i class="fa-regular fa-pen-to-square action-icon"></i></button>
+                                <button onclick="showDetails(this)" class="btn btn-primary"><i class="fa-solid fa-file-contract action-icon"></i></button>
+                                <button onclick="deleteConfirm(this)" class="btn btn-danger"><i class="fa-solid fa-trash-can action-icon"></i></button>
+                            </td>
+                            <input type="hidden" value="${newPost.id}">
+                        </tr>
+                        `)
+                        $('#add-modal').modal('hide');
+                    } else {
+                        console.error('Error creating post.');
+                        console.error(xhr.responseText);
+                    }
+                };
+
+                // Send the request with the payload
+                xhr.send(payloadJson);
+            })
+        }
+
+        //#endregion Add
+
+        //#region Details
+
+        function showDetails(button) {
+            const Closebuttons = document.querySelectorAll('.btn-close-modal');
+            Closebuttons.forEach(function (btnClose) {
+                btnClose.addEventListener('click', function () {
+                    $('#details-modal').modal('hide');
+                });
+            });
+
+            let row = button.parentNode.parentNode;
+            const postId = parseInt(row.querySelectorAll('input[type="hidden"]')[0].value);
+
+            // Define the API endpoint URL
+            const url = 'http://localhost:3000/posts/' + postId;
+
+            // Define the request method and URL
+            xhr.open('GET', url, true);
+
+            // Set the request headers (if required)
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+            // Define the request payload
+
+
+            // Handle the response from the server
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    let post = JSON.parse(xhr.responseText);
+                    document.getElementById('details-modal').querySelectorAll('input[type="text"]')[0].value = post.title;
+                    document.getElementById('details-modal').querySelectorAll('input[type="text"]')[1].value = post.content;
+                    $('#details-modal').modal('show');
+                } else {
+                    console.error(xhr.responseText);
+                }
+            };
+
+            // Send the request with the payload
+            xhr.send();
+        }
+
+        //#endregion Details
+
+        //#region Edit
+
+        function editConfirm(button) {
+            const btnEdit = document.getElementById('btn-edit');
+            const Closebuttons = document.querySelectorAll('.btn-close-modal');
+            Closebuttons.forEach(function (btnClose) {
+                btnClose.addEventListener('click', function () {
+                    $('#e-modal').modal('hide');
+                });
+            });
+
+            let row = button.parentNode.parentNode;
+            const postId = parseInt(row.querySelectorAll('input[type="hidden"]')[0].value);
+            // Define the API endpoint URL
+            const url = 'http://localhost:3000/posts/' + postId;
+
+            // Define the request method and URL
+            xhr.open('GET', url, true);
+
+            // Set the request headers (if required)
+            xhr.setRequestHeader('Content-Type', 'application/json');
+
+
+            // Handle the response from the server
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    let post = JSON.parse(xhr.responseText);
+                    document.getElementById('e-modal').querySelectorAll('input[type="text"]')[0].value = post.title;
+                    document.getElementById('e-modal').querySelectorAll('input[type="text"]')[1].value = post.content;
+                    $('#e-modal').modal('show');
+                } else {
+                    console.error(xhr.responseText);
+                }
+            };
+
+            // Send the request with the payload
+            xhr.send();
+
+            btnEdit.addEventListener('click', function () {
+
+                // Define the API endpoint URL
+                const url = 'http://localhost:3000/posts/' + postId;
+
+                // Define the request method and URL
+                xhr.open('PUT', url, true);
+
+                // Set the request headers (if required)
+                xhr.setRequestHeader('Content-Type', 'application/json');
+
+
+                // Define the request payload
+                const payload = {
+                    title: document.getElementById('e-modal').querySelectorAll('input[type="text"]')[0].value,
+                    content: document.getElementById('e-modal').querySelectorAll('input[type="text"]')[1].value,
+                    // userId: 1
+                };
+
+                // Convert the payload to JSON string
+                const payloadJson = JSON.stringify(payload);
+
+                // Handle the response from the server
+                xhr.onload = function () {
+                    if (xhr.status === 200) {
+                        let post = JSON.parse(xhr.responseText);
+                        row.querySelectorAll('td')[1].innerText = post.title;
+                        row.querySelectorAll('td')[2].innerText = post.content;
+                        $('#e-modal').modal('hide');
+                    } else {
+                        console.error(xhr.responseText);
+                    }
+                };
+
+                // Send the request with the payload
+                xhr.send(payloadJson);
+            })
+
+        }
+
+
+        //#endregion Edit
+
+        //#region Delete 
+
+        //#region Delete one register
+
+        function deleteConfirm(button) {
+            $('#d-modal').modal('show');
+            const btnDelete = document.getElementById('btn-delete');
+            const Closebuttons = document.querySelectorAll('.btn-close-modal');
+
+            Closebuttons.forEach(function (btnClose) {
+                btnClose.addEventListener('click', function () {
+                    $('#d-modal').modal('hide');
+                });
+            });
+
+            btnDelete.addEventListener('click', function () {
+                let row = button.parentNode.parentNode;
+                const postId = parseInt(row.querySelectorAll('input[type="hidden"]')[0].value);
+                fetch('http://localhost:3000/posts/' + postId, {
+                    method: 'DELETE',
+                    headers: {
+                        'Content-Type': 'application/json',
+                    },
+                })
+                    .then(response => {
+                        if (response.status === 204) {
+                            row.remove();
+                            $('#d-modal').modal('hide');
+                        } else {
+                            return response.json();
+                        }
+                    })
+                    .then(data => {
+                        if (data) {
+                            console.log('Error:', data);
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+            })
+        }
+
+        //#endregion 
+
+        //#region Delete Multi register
+
+        function DeleteSelected() {
+            $('#d-modal').modal('show');
+            const btnDelete = document.getElementById('btn-delete');
+            const Closebuttons = document.querySelectorAll('.btn-close-modal');
+
+            Closebuttons.forEach(function (btnClose) {
+                btnClose.addEventListener('click', function () {
+                    $('#d-modal').modal('hide');
+                });
+            });
+
+            btnDelete.addEventListener('click', function () {
+                var checkboxes = document.querySelectorAll('td input[type="checkbox"]:checked');
+                checkboxes.forEach(function (checkbox) {
+                    let row = checkbox.closest('tr');
+                    const postId = parseInt(row.querySelectorAll('input[type="hidden"]')[0].value);
+                    fetch('http://localhost:3000/posts/' + postId, {
+                        method: 'DELETE',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    })
+                        .then(response => {
+                            if (response.status === 204) {
+                                row.remove();
+                            } else {
+                                return response.json();
+                            }
+                        })
+                        .then(data => {
+                            if (data) {
+                                console.log('Error:', data);
+                            }
+                        })
+                        .catch(error => {
+                            console.error('Error:', error);
+                        });
+
+                });
+                $('#d-modal').modal('hide');
+                var selectAllcheckbox = document.querySelectorAll('th input[type="checkbox"]:checked')[0];
+                selectAllcheckbox.checked = false;
+            })
+        }
+
+        //#endregion Delete Multi register
+
+        //#endregion Delete 
+
+        //#region selectAll
+
+        function selectAll() {
+            let selectAllCheckbox = document.querySelector('table tr:first-of-type th:first-of-type input[type="checkbox"]');
+            if (selectAllCheckbox.checked == true) {
+                let checkboxes = document.querySelectorAll('table tr td input[type="checkbox"]');
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = true;
+                });
+            }
+            else {
+                let checkboxes = document.querySelectorAll('table tr td input[type="checkbox"]');
+                checkboxes.forEach(function (checkbox) {
+                    checkbox.checked = false;
+                });
+            }
+        }
+        //#endregion selectAll
+
+    </script>
+</body>
+
+</html>
